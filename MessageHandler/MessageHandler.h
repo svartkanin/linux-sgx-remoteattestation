@@ -32,7 +32,7 @@ public:
 
 private:
     sgx_status_t initEnclave();
-    uint32_t getExtendedEPID_GID();
+    uint32_t getExtendedEPID_GID(uint32_t *extended_epid_group_id);
     sgx_status_t getEnclaveStatus();
 
     void assembleAttestationMSG(Messages::AttestationMessage msg, ra_samp_response_header_t **pp_att_msg);

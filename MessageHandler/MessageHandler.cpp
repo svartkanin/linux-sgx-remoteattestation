@@ -36,7 +36,6 @@ sgx_status_t MessageHandler::getEnclaveStatus() {
 
 
 uint32_t MessageHandler::getExtendedEPID_GID(uint32_t *extended_epid_group_id) {
-    uint32_t extended_epid_group_id = 0;
     int ret = sgx_get_extended_epid_group_id(extended_epid_group_id);
 
     if (SGX_SUCCESS != ret) {
