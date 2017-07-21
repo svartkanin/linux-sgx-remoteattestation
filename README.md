@@ -15,7 +15,7 @@ The message exchange over the network is performed using Google Protocol Buffers
 Before running the code, some settings have to be set in the ```GeneralSettings.h``` file:
 * The application port and IP 
 * A server certificate and private key are required for the SSL communication between the SP and the Application (which can be self-signed)<br /> 
-e.g. ```openssl req -x509 -nodes -newkey rsa:4096 -keyout server.key -out sever.crt -days 365```
+e.g. ```openssl req -x509 -nodes -newkey rsa:4096 -keyout server.key -out server.crt -days 365```
 * The SPID provided by Intel when registering for the developer account
 * The certificate sent to Intel when registering for the developer account
 * IAS Rest API url (should stay the same)
