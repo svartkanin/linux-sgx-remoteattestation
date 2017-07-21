@@ -50,15 +50,19 @@ void VerificationManager::start() {
 string VerificationManager::handleMSG0(Messages::MessageMsg0 msg) {
     Log("MSG0 received");
 
-    uint32_t extended_epid_group_id = msg.epid();
-    int ret = this->sp->sp_ra_proc_msg0_req(extended_epid_group_id);
+    if (msg.status() != TYPE_TERMINATE) {
+        uint32_t extended_epid_group_id = msg.epid();
+        int ret = this->sp->sp_ra_proc_msg0_req(extended_epid_group_id);
 
-    if (ret == 0)
-        msg.set_status(TYPE_OK);
-    else
-        msg.set_status(TYPE_TERMINATE);
-
-    return nm->serialize(msg);
+        if (ret == 0) {
+            msg.set_status(TYPE_OK);
+            return nm->serialize(msg);
+        }
+    } else {
+        Log("Termination received!");
+    }
+    
+    return "";    
 }
 
 

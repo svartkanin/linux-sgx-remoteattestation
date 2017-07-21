@@ -35,31 +35,36 @@ sgx_status_t MessageHandler::getEnclaveStatus() {
 }
 
 
-uint32_t MessageHandler::getExtendedEPID_GID() {
+uint32_t MessageHandler::getExtendedEPID_GID(uint32_t *extended_epid_group_id) {
     uint32_t extended_epid_group_id = 0;
-    int ret = sgx_get_extended_epid_group_id(&extended_epid_group_id);
+    int ret = sgx_get_extended_epid_group_id(extended_epid_group_id);
 
     if (SGX_SUCCESS != ret) {
-        ret = -1;
-        Log("Error, call sgx_get_extended_epid_group_id fail");
+        Log("Error, call sgx_get_extended_epid_group_id fail: 0x%x", ret);
+        print_error_message((sgx_status_t)ret);
         return ret;
-    }
+    } else
+        Log("Call sgx_get_extended_epid_group_id success");
 
-    Log("Call sgx_get_extended_epid_group_id success");
-
-    return extended_epid_group_id;
+    return ret;
 }
 
 
 string MessageHandler::generateMSG0() {
     Log("Call MSG0 generate");
 
-    uint32_t extended_epid_group_id = this->getExtendedEPID_GID();
+    uint32_t extended_epid_group_id;
+    int ret = this->getExtendedEPID_GID(&extended_epid_group_id);
 
     Messages::MessageMsg0 msg;
     msg.set_type(RA_MSG0);
-    msg.set_epid(extended_epid_group_id);
 
+    if (ret == SGX_SUCCESS) {
+        msg.set_epid(extended_epid_group_id);
+    } else {
+        msg.set_status(TYPE_TERMINATE);
+        msg.set_epid(0);
+    }
     return nm->serialize(msg);
 }
 

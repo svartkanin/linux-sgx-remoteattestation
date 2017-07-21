@@ -102,7 +102,7 @@ void AbstractNetworkOps::process_read(char* buffer, int msg_size, int type) {
 
     auto msg = this->callback_handler(str, type);
 
-    if (msg.size() > 0 && msg[0].size() > 0) {
+    if (msg.size() == 2 && msg[0].size() > 0 && msg[1].size() > 0) {
         Log("Send to client");
         send(msg);
     } else {
