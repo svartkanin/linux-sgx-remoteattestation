@@ -64,6 +64,16 @@ message AttestationMessage {
 	repeated uint32 payload = 16 [packed=true];
 }
 
+message SecretMessage {
+  required uint32 type = 1;
+  required uint32 size = 2;
 
-
-
+  optional uint32 encryped_pkey_size = 3;
+  optional uint32 encryped_x509_size = 4;
+  repeated uint32 encrypted_content = 5 [packed = true];
+  repeated uint32 mac_smk = 6 [packed = true];
+  repeated uint32 encrypted_pkey = 7 [packed = true];
+  repeated uint32 encrypted_pkey_mac_smk = 8 [packed = true];
+  repeated uint32 encrypted_x509 = 9 [packed = true];
+  repeated uint32 encrypted_x509_mac_smk = 10 [packed = true];
+}
